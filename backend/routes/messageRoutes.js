@@ -1,45 +1,55 @@
+// routes/messageRoutes.js
+
 import express from 'express';
-import { sendMessage, getChatBetweenUsers ,getMessages} from '../controllers/messageController.js';
+import Message from '../models/Message.js';
 
 const router = express.Router();
 
-router.post('/send', sendMessage);
-router.get('/history', getMessages);
-router.get('/chat', getChatBetweenUsers);
+// 🔹 Save a new message
 router.post('/send', async (req, res) => {
-  const { sender, receiver, text } = req.body;
-
   try {
-    const msg = await Message.create({
+    const { sender, receiver, text } = req.body;
+
+    if (!sender || !receiver || !text) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const newMessage = new Message({
       sender,
       receiver,
       text,
       timestamp: new Date()
     });
 
-    res.status(201).json({ message: 'Message sent', msg });
-  } catch (err) {
-    console.error('❌ Error saving message:', err.message);
-    res.status(500).json({ error: err.message });
+    await newMessage.save();
+    res.status(201).json({ message: 'Message saved successfully' });
+
+  } catch (error) {
+    console.error('❌ Error saving message:', error.message);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Get messages between two users
+// 🔹 Get chat history between two users
 router.get('/history', async (req, res) => {
-  const { sender, receiver } = req.query;
+  const { user1, user2 } = req.query;
+
+  if (!user1 || !user2) {
+    return res.status(400).json({ error: 'Missing users in query' });
+  }
 
   try {
     const messages = await Message.find({
       $or: [
-        { sender, receiver },
-        { sender: receiver, receiver: sender }
+        { sender: user1, receiver: user2 },
+        { sender: user2, receiver: user1 }
       ]
-    }).sort({ timestamp: 1 }); // oldest to newest
+    }).sort({ timestamp: 1 });
 
-    res.json(messages);
-  } catch (error) {
-    console.error('❌ Error fetching messages:', error);
-    res.status(500).json({ error: 'Failed to fetch messages' });
+    res.status(200).json(messages);
+  } catch (err) {
+    console.error('❌ Error fetching chat history:', err.message);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
