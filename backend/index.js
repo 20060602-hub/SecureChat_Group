@@ -115,7 +115,7 @@ const io = new Server(server, {
   }
 });
 
-// ✅ Middleware
+// ✅ Middleware for CORS
 app.use(cors({
   origin: [
     'http://localhost:5173', // for local development
@@ -186,4 +186,5 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'secureChat' })
   .catch((err) => {
     console.error('❌ DB connection error:', err.message);
   });
+
 
