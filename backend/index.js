@@ -121,11 +121,16 @@ app.use(cors({
     'http://localhost:5173', // for local development
     'https://secure-chat-group.vercel.app', // your deployed frontend URL
   ],
-  credentials: true, // Allow cookies, authorization headers, or TLS client certificates
+  credentials: true,
 }));
 app.use(express.json());
 
-// ✅ Routes
+// ✅ Default root route to fix "Cannot GET /"
+app.get('/', (req, res) => {
+  res.send('✅ SecureChat Backend is Running');
+});
+
+// ✅ API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/messages', messageRoutes);
@@ -178,7 +183,7 @@ io.on('connection', (socket) => {
 mongoose.connect(process.env.MONGO_URI, { dbName: 'secureChat' })
   .then(() => {
     console.log('✅ MongoDB connected');
-    const port = process.env.PORT || 5000;  // Use the environment variable PORT or fallback to 5000
+    const port = process.env.PORT || 5000; // Use environment variable or fallback
     server.listen(port, () => {
       console.log(`🚀 Server running at http://localhost:${port}`);
     });
@@ -186,5 +191,6 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'secureChat' })
   .catch((err) => {
     console.error('❌ DB connection error:', err.message);
   });
+
 
 
