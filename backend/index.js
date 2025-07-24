@@ -111,7 +111,7 @@ const io = new Server(server, {
       'https://secure-chat-group.vercel.app', // your deployed frontend URL
     ],
     methods: ['GET', 'POST'],
-    credentials: true,
+    credentials: true, // Allow cookies, authorization headers, or TLS client certificates
   }
 });
 
