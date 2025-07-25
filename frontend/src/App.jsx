@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
+import Signup from './pages/SignUp';
+import Signin from './pages/SignIn';
 import Home from './pages/Home';
 import OtpVerify from './pages/OtpVerify';
 import FingerprintVerify from './pages/FingerprintVerify';
