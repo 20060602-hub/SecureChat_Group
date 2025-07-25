@@ -118,7 +118,7 @@ const io = new Server(server, {
 // ✅ Middleware for CORS
 app.use(cors({
   origin: [
-    'http://localhost:5173', // for local development
+    // 'http://localhost:5173', // for local development
     'https://secure-chat-group.vercel.app', // your deployed frontend URL
   ],
   credentials: true,
