@@ -838,7 +838,7 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchVerifiedUsers = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/users/verified');
+        const res = await axios.get('https://securechat-group.onrender.com/api/users/verified');
         const others = res.data.filter(user => user.email !== currentEmail);
         setVerifiedUsers(others);
       } catch (err) {
@@ -854,7 +854,7 @@ const ChatPage = () => {
     const fetchChatHistory = async () => {
       if (!selectedUser || !currentEmail) return;
       try {
-        const res = await axios.get('http://localhost:5000/api/messages/history', {
+        const res = await axios.get('https://securechat-group.onrender.com/api/messages/history', {
           params: {
             user1: currentEmail,
             user2: selectedUser.email
@@ -892,7 +892,7 @@ const ChatPage = () => {
     setMessage('');
 
     try {
-      await axios.post('http://localhost:5000/api/messages/send', msgObj);
+      await axios.post('https://securechat-group.onrender.com/api/messages/send', msgObj);
     } catch (err) {
       console.error('❌ Error sending message:', err.message);
     }
