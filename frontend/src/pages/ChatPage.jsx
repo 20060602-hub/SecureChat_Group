@@ -802,7 +802,7 @@ import BackButton from '../components/BackButton';
 import './ChatPage.css';
 import { encryptMessage, decryptMessage } from '../utils/aesUtils'; // ✅ Import encryption helpers
 
-const socket = io('http://localhost:5000');
+const socket = io('https://securechat-group.onrender.com');
 
 const ChatPage = () => {
   const [verifiedUsers, setVerifiedUsers] = useState([]);
