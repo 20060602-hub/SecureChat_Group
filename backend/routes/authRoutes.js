@@ -4,8 +4,8 @@ import {
   verifyOtp,
   verifyFingerprint,
   getVerifiedUsers,
-  signup,
-  signin
+  signUp,
+  signIn
 } from '../controllers/authController.js';
 
 import User from '../models/User.js'; // 🟡 Add this line
@@ -16,8 +16,8 @@ router.post('/send-otp', sendOtp);
 router.post('/verify-otp', verifyOtp);
 router.post('/verify-fingerprint', verifyFingerprint);
 router.get('/verified-users', getVerifiedUsers);
-router.post('/signup', signup);
-router.post('/signin', signin);
+router.post('/signUp', signUp);
+router.post('/signIn', signIn);
 
 // ✅ Add this route to get user details by email
 router.get('/:email', async (req, res) => {
