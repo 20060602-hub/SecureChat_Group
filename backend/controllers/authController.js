@@ -5,7 +5,7 @@ import { sendOtpEmail } from '../utils/email.js';
 
 
 // POST /api/auth/signup
-export const signUp = async (req, res) => {
+export const signup = async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const userExists = await User.findOne({ email });
@@ -20,7 +20,7 @@ export const signUp = async (req, res) => {
 };
 
 // POST /api/auth/signin
-export const signIn = async (req, res) => {
+export const signin = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
