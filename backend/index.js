@@ -210,7 +210,6 @@ const server = http.createServer(app);
 const allowedOrigins = [
   'http://localhost:5173', // Localhost (for local development)
   'https://secure-chat-group-a4no.vercel.app', // Production (Vercel)
-  'https://securechat-group.onrender.com', // Production (Render)
 ];
 
 app.use(cors({
