@@ -36,6 +36,7 @@ const App = () => {
   return (
     <Routes>
       {/* Keep only one route for Signup */}
+      <Route path="/signup" element={<Signup />} />
       <Route path="/" element={<Signup />} /> {/* Default route */}
       <Route path="/SignIn" element={<Signin />} />
       <Route path="/verify-otp" element={<OtpVerify />} />
