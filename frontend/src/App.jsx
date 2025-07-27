@@ -38,7 +38,7 @@ const App = () => {
       {/* Keep only one route for Signup */}
       <Route path="/signup" element={<Signup />} />
       <Route path="/" element={<Signup />} /> {/* Default route */}
-      <Route path="/SignIn" element={<Signin />} />
+      <Route path="/Signin" element={<Signin />} />
       <Route path="/verify-otp" element={<OtpVerify />} />
       <Route path="/fingerprint" element={<FingerprintVerify />} />
       <Route path="/home" element={<Home />} />
