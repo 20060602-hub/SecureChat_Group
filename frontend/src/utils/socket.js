@@ -1,6 +1,6 @@
-// src/utils/socket.js
 import { io } from 'socket.io-client';
 
-const socket = io('https://securechat-group.onrender.com/'); // backend socket server
-
-//export default socket;
+const socket = io(import.meta.env.VITE_BACKEND_URL, {
+  withCredentials: true,
+  transports: ['websocket'], // Prevent long polling fallback
+});
