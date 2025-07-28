@@ -207,13 +207,11 @@ const app = express();
 const server = http.createServer(app);
 
 // Update CORS configuration
-const allowedOrigins = [
-  // 'http://localhost:5173', // Localhost (for local development)
-  'https://secure-chat-group.vercel.app/' // Production (Vercel)
-];
+const FRONTEND_ORIGIN = 'https://secure-chat-group.vercel.app';
+
 
 app.use(cors({
-  origin: 'https://secure-chat-group-a4no.vercel.app',
+  origin: FRONTEND_ORIGIN,
   methods: ['GET', 'POST'],
   credentials: true,  // Allow credentials (cookies, authorization headers)
 }));
@@ -245,7 +243,7 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'secureChat' })
 // Socket.IO setup
 const io = new Server(server, {
   cors: {
-    origin:'https://secure-chat-group-a4no.vercel.app',  // Same allowed origins for Socket.IO
+    origin:FRONTEND_ORIGIN,  // Same allowed origins for Socket.IO
     methods: ['GET', 'POST'],
     credentials: true,  // Allow credentials (cookies, authorization headers)
   },
