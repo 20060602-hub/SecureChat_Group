@@ -1,6 +1,4 @@
-import { io } from 'socket.io-client';
-
-const socket = io(import.meta.env.VITE_BACKEND_URL, {
+const socket = io("https://securechat-group.onrender.com", {
   withCredentials: true,
-  transports: ['websocket'], // Prevent long polling fallback
+  transports: ["websocket"]
 });
