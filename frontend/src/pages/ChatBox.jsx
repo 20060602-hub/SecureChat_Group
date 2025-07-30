@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import CryptoJS from 'crypto-js';
 
-const socket = io('http://localhost:5000'); // Your backend
+const socket = io('https://securechat-group.onrender.com'); // Your backend
 
 const SECRET_KEY = 'securechat-key';
 
