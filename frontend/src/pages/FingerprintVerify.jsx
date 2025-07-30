@@ -22,7 +22,7 @@ const FingerprintVerify = () => {
       // Simulate fingerprint ID
       const fingerprintID = 'FP-' + Math.random().toString(36).substring(2, 10);
 
-      await axios.post('http://localhost:5000/api/auth/verify-fingerprint', {
+      await axios.post('https://securechat-group.onrender.com/api/auth/verify-fingerprint', {
         email,
         fingerprintID,
       });
