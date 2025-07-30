@@ -16,10 +16,9 @@
 // export default mongoose.model('AESKey', AESKeySchema);
 // models/AESKey.js
 import mongoose from 'mongoose';
-
 const AESKeySchema = new mongoose.Schema({
-  fingerprints: {
-    type: [String], // Sorted [fingerprint1, fingerprint2]
+  users: {
+    type: [String], // Sorted [email1, email2]
     required: true,
     unique: true
   },
@@ -29,4 +28,3 @@ const AESKeySchema = new mongoose.Schema({
   }
 });
 
-export default mongoose.model('AESKey', AESKeySchema);
