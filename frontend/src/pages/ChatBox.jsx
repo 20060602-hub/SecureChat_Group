@@ -23,7 +23,7 @@ const ChatBox = () => {
   }, []);
 
   const fetchVerifiedUsers = async () => {
-    const res = await fetch('http://localhost:5000/api/auth/verified-users');
+    const res = await fetch('https://securechat-group.onrender.com/api/auth/verified-users');
     const data = await res.json();
     setUsers(data.filter(u => u.username !== username));
   };
