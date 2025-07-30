@@ -10,7 +10,7 @@
 //   useEffect(() => {
 //     const fetchVerifiedUsers = async () => {
 //       try {
-//         const res = await axios.get('http://localhost:5000/api/auth/verified-users');
+//         const res = await axios.get('https://securechat-group.onrender.com/api/auth/verified-users');
 //         setUsers(res.data);
 //       } catch (err) {
 //         console.error('Error fetching verified users:', err);
@@ -57,7 +57,7 @@ const VerifiedUsers = () => {
   useEffect(() => {
     const fetchVerifiedUsers = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/auth/verified-users');
+        const res = await axios.get('https://securechat-group.onrender.com/api/auth/verified-users');
         setUsers(res.data);
       } catch (err) {
         console.error('Error fetching verified users:', err);
