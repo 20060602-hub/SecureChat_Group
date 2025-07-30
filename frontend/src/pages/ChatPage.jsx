@@ -795,12 +795,181 @@
 
 
 
+// import { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import io from 'socket.io-client';
+// import BackButton from '../components/BackButton';
+// import './ChatPage.css';
+// import { encryptMessage, decryptMessage } from '../utils/aesUtils'; // ✅ Import encryption helpers
+
+// const socket = io('https://securechat-group.onrender.com');
+
+// const ChatPage = () => {
+//   const [verifiedUsers, setVerifiedUsers] = useState([]);
+//   const [selectedUser, setSelectedUser] = useState(null);
+//   const [message, setMessage] = useState('');
+//   const [chat, setChat] = useState([]);
+
+//   const currentEmail = localStorage.getItem('otp_email');
+//   const currentUser = localStorage.getItem('username');
+
+//   // ✅ Register socket on load
+//   useEffect(() => {
+//     if (currentEmail) {
+//       socket.emit('register', currentEmail);
+//     }
+//   }, [currentEmail]);
+
+//   // ✅ Realtime message receive
+//   useEffect(() => {
+//     socket.on('receive-message', (msg) => {
+//       if (
+//         (msg.sender === selectedUser?.email && msg.receiver === currentEmail) ||
+//         (msg.sender === currentEmail && msg.receiver === selectedUser?.email)
+//       ) {
+//         setChat(prev => [...prev, msg]);
+//       }
+//     });
+
+//     return () => socket.off('receive-message');
+//   }, [selectedUser, currentEmail]);
+
+//   // ✅ Fetch verified users (excluding self)
+//   useEffect(() => {
+//     const fetchVerifiedUsers = async () => {
+//       try {
+//         const rawUrl = import.meta.env.VITE_BACKEND_URL;
+//         const backendUrl = rawUrl.replace(/\/+$/, '');
+
+//         const res = await axios.get(`${backendUrl}/api/users/verified`);
+
+//         // const res = await axios.get('https://securechat-group.onrender.com/api/users/verified');
+//         const others = res.data.filter(user => user.email !== currentEmail);
+//         setVerifiedUsers(others);
+//       } catch (err) {
+//         console.error('❌ Error fetching verified users:', err.message);
+//       }
+//     };
+
+//     fetchVerifiedUsers();
+//   }, [currentEmail]);
+
+//   // ✅ Fetch message history from DB
+//   useEffect(() => {
+//     const fetchChatHistory = async () => {
+//       if (!selectedUser || !currentEmail) return;
+//       try {
+//         const res = await axios.get('https://securechat-group.onrender.com/api/messages/history', {
+//           params: {
+//             user1: currentEmail,
+//             user2: selectedUser.email
+//           }
+//         });
+//         setChat(res.data);
+//       } catch (err) {
+//         console.error('❌ Error fetching chat history:', err.message);
+//       }
+//     };
+//     const interval = setInterval(fetchChatHistory, 1000); // 🔄 Refresh every 1s
+
+//      return () => clearInterval(interval);
+//     fetchChatHistory();
+//   }, [selectedUser, currentEmail]);
+
+//   // ✅ Auto-scroll chat
+//   useEffect(() => {
+//     const chatBox = document.querySelector('.chat-messages');
+//     if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+//   }, [chat]);
+
+//   // ✅ Send encrypted message
+//   const handleSend = async () => {
+//     if (!message.trim() || !selectedUser) return;
+
+//     const encryptedText = encryptMessage(message); // 🔐 Encrypt message here
+
+//     const msgObj = {
+//       sender: currentEmail,
+//       receiver: selectedUser.email,
+//       text: encryptedText // 🔐 Send encrypted message
+//     };
+
+//     // ✅ Show it immediately in UI with current timestamp
+//     setChat(prev => [...prev, { ...msgObj, timestamp: new Date() }]);
+//     setMessage('');
+
+//     try {
+//       await axios.post('https://securechat-group.onrender.com/api/messages/send', msgObj);
+//     } catch (err) {
+//       console.error('❌ Error sending message:', err.message);
+//     }
+
+//     socket.emit('send-message', msgObj);
+//   };
+
+//   return (
+//     <div className="chat-wrapper">
+//       <BackButton />
+//       <div className="chat-container">
+//         <div className="verified-list">
+//           <h3>Verified Users</h3>
+//           {verifiedUsers.map(user => (
+//             <button
+//               key={user.email}
+//               onClick={() => setSelectedUser(user)}
+//               className={selectedUser?.email === user.email ? 'selected' : ''}
+//             >
+//               {user.username}
+//             </button>
+//           ))}
+//         </div>
+
+//         <div className="chat-box">
+//           <h2>💬 Chat Window</h2>
+//           {selectedUser ? (
+//             <>
+//               <h4>Talking to: {selectedUser.username}</h4>
+//               <div className="chat-messages">
+//                 {chat.map((msg, i) => (
+//                   <div
+//                     key={i}
+//                     className={`chat-bubble ${msg.sender === currentEmail ? 'sent' : 'received'}`}
+//                   >
+//                     <strong>{msg.sender === currentEmail ? 'You' : selectedUser.username}:</strong>{' '}
+//                     {decryptMessage(msg.text)} {/* 🔓 Decrypt message for display */}
+//                     <br />
+//                     <small>{new Date(msg.timestamp).toLocaleString()}</small>
+//                   </div>
+//                 ))}
+//               </div>
+//               <div className="chat-input">
+//                 <input
+//                   type="text"
+//                   value={message}
+//                   placeholder="Type your message..."
+//                   onChange={(e) => setMessage(e.target.value)}
+//                 />
+//                 <button onClick={handleSend}>Send</button>
+//               </div>
+//             </>
+//           ) : (
+//             <p>Select a verified user to chat with.</p>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ChatPage;
+
+
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
 import BackButton from '../components/BackButton';
 import './ChatPage.css';
-import { encryptMessage, decryptMessage } from '../utils/aesUtils'; // ✅ Import encryption helpers
+import { encryptMessage, decryptMessage } from '../utils/aesUtils';
 
 const socket = io('https://securechat-group.onrender.com');
 
@@ -809,18 +978,15 @@ const ChatPage = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
+  const [aesKey, setAesKey] = useState('');
 
   const currentEmail = localStorage.getItem('otp_email');
   const currentUser = localStorage.getItem('username');
 
-  // ✅ Register socket on load
   useEffect(() => {
-    if (currentEmail) {
-      socket.emit('register', currentEmail);
-    }
+    if (currentEmail) socket.emit('register', currentEmail);
   }, [currentEmail]);
 
-  // ✅ Realtime message receive
   useEffect(() => {
     socket.on('receive-message', (msg) => {
       if (
@@ -830,71 +996,73 @@ const ChatPage = () => {
         setChat(prev => [...prev, msg]);
       }
     });
-
     return () => socket.off('receive-message');
   }, [selectedUser, currentEmail]);
 
-  // ✅ Fetch verified users (excluding self)
   useEffect(() => {
     const fetchVerifiedUsers = async () => {
       try {
         const rawUrl = import.meta.env.VITE_BACKEND_URL;
         const backendUrl = rawUrl.replace(/\/+$/, '');
-
         const res = await axios.get(`${backendUrl}/api/users/verified`);
-
-        // const res = await axios.get('https://securechat-group.onrender.com/api/users/verified');
         const others = res.data.filter(user => user.email !== currentEmail);
         setVerifiedUsers(others);
       } catch (err) {
         console.error('❌ Error fetching verified users:', err.message);
       }
     };
-
     fetchVerifiedUsers();
   }, [currentEmail]);
 
-  // ✅ Fetch message history from DB
   useEffect(() => {
     const fetchChatHistory = async () => {
       if (!selectedUser || !currentEmail) return;
       try {
         const res = await axios.get('https://securechat-group.onrender.com/api/messages/history', {
-          params: {
-            user1: currentEmail,
-            user2: selectedUser.email
-          }
+          params: { user1: currentEmail, user2: selectedUser.email },
         });
         setChat(res.data);
       } catch (err) {
         console.error('❌ Error fetching chat history:', err.message);
       }
     };
-    const interval = setInterval(fetchChatHistory, 1000); // 🔄 Refresh every 1s
 
-     return () => clearInterval(interval);
+    const fetchAESKey = async () => {
+      try {
+        const sortedUsers = [currentEmail, selectedUser.email].sort();
+        const res = await axios.get(`https://securechat-group.onrender.com/api/aes`, {
+          params: { user1: sortedUsers[0], user2: sortedUsers[1] },
+        });
+        if (res.data.key) {
+          setAesKey(res.data.key);
+        }
+      } catch (err) {
+        console.error('❌ Error fetching AES key:', err.message);
+      }
+    };
+
     fetchChatHistory();
+    fetchAESKey();
+    const interval = setInterval(fetchChatHistory, 1000);
+    return () => clearInterval(interval);
   }, [selectedUser, currentEmail]);
 
-  // ✅ Auto-scroll chat
   useEffect(() => {
     const chatBox = document.querySelector('.chat-messages');
     if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
   }, [chat]);
 
-  // ✅ Send encrypted message
   const handleSend = async () => {
     if (!message.trim() || !selectedUser) return;
 
-    const encryptedText = encryptMessage(message); // 🔐 Encrypt message here
+    const encryptedText = encryptMessage(message); // Replace with key-based if you want
 
     const msgObj = {
       sender: currentEmail,
       receiver: selectedUser.email,
-      text: encryptedText // 🔐 Send encrypted message
+      text: encryptedText
     };
 
-    // ✅ Show it immediately in UI with current timestamp
     setChat(prev => [...prev, { ...msgObj, timestamp: new Date() }]);
     setMessage('');
 
@@ -936,7 +1104,7 @@ const ChatPage = () => {
                     className={`chat-bubble ${msg.sender === currentEmail ? 'sent' : 'received'}`}
                   >
                     <strong>{msg.sender === currentEmail ? 'You' : selectedUser.username}:</strong>{' '}
-                    {decryptMessage(msg.text)} {/* 🔓 Decrypt message for display */}
+                    {decryptMessage(msg.text)}
                     <br />
                     <small>{new Date(msg.timestamp).toLocaleString()}</small>
                   </div>
@@ -962,6 +1130,4 @@ const ChatPage = () => {
 };
 
 export default ChatPage;
-
-
 
