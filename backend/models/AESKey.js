@@ -30,5 +30,3 @@ const AESKeySchema = new mongoose.Schema({
 });
 
 export default mongoose.model('AESKey', AESKeySchema);
-
-
