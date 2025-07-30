@@ -80,7 +80,9 @@ const Signin = () => {
 
     try {
       // Step 1: Authenticate user
-      const backendUrl = import.meta.env.VITE_BACKEND_URL; // Use environment variable
+      const rawUrl = import.meta.env.VITE_BACKEND_URL;
+      const backendUrl = rawUrl.replace(/\/+$/, '');
+      // const backendUrl = import.meta.env.VITE_BACKEND_URL; // Use environment variable
       const res = await axios.post(`${backendUrl}/api/auth/signin`, form);
 
       // Step 2: Save token and username
