@@ -80,7 +80,7 @@ const Signin = () => {
 
     try {
       // Step 1: Authenticate user
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'; // Use environment variable
+      const backendUrl = import.meta.env.VITE_BACKEND_URL; // Use environment variable
       const res = await axios.post(`${backendUrl}/api/auth/signin`, form);
 
       // Step 2: Save token and username
