@@ -838,7 +838,12 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchVerifiedUsers = async () => {
       try {
-        const res = await axios.get('https://securechat-group.onrender.com/api/users/verified');
+        const rawUrl = import.meta.env.VITE_BACKEND_URL;
+        const backendUrl = rawUrl.replace(/\/+$/, '');
+
+        const res = await axios.get(`${backendUrl}/api/users/verified`);
+
+        // const res = await axios.get('https://securechat-group.onrender.com/api/users/verified');
         const others = res.data.filter(user => user.email !== currentEmail);
         setVerifiedUsers(others);
       } catch (err) {
