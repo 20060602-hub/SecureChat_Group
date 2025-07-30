@@ -22,31 +22,33 @@
 //     res.status(500).json({ error: 'Server error' });
 //   }
 // };
+// controllers/aesController.js
 import AESKey from '../models/AESKey.js';
 import crypto from 'crypto';
 
 export const getOrCreateAESKey = async (req, res) => {
-  const { fingerprint1, fingerprint2 } = req.body;
+  const { user1, user2 } = req.body;
 
-  if (!fingerprint1 || !fingerprint2) {
-    return res.status(400).json({ message: 'Missing fingerprint IDs' });
+  if (!user1 || !user2) {
+    return res.status(400).json({ message: 'Missing user1 or user2' });
   }
 
-  const sorted = [fingerprint1, fingerprint2].sort();
+  const sortedUsers = [user1, user2].sort();
 
   try {
-    let keyDoc = await AESKey.findOne({ fingerprints: sorted });
+    let keyDoc = await AESKey.findOne({ users: sortedUsers });
 
     if (!keyDoc) {
-      const newKey = crypto.randomBytes(32).toString('hex');
-      keyDoc = new AESKey({ fingerprints: sorted, key: newKey });
+      const newKey = crypto.randomBytes(32).toString('hex'); // 256-bit key
+      keyDoc = new AESKey({ users: sortedUsers, key: newKey });
       await keyDoc.save();
-      console.log('🔐 New AES key created for fingerprints:', sorted);
+      console.log('🔐 New AES key generated');
     }
 
     res.status(200).json({ key: keyDoc.key });
   } catch (err) {
-    console.error('❌ Error exchanging AES key:', err.message);
+    console.error('❌ Error generating AES key:', err.message);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
