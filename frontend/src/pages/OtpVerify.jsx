@@ -23,7 +23,7 @@ const OtpVerify = () => {
   const handleVerify = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/verify-otp', {
+      const response = await axios.post('https://securechat-group.onrender.com/api/auth/verify-otp', {
         email,
         otp,
       });
@@ -37,7 +37,7 @@ const OtpVerify = () => {
 
   const resendOtp = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/send-otp', { email });
+      await axios.post('https://securechat-group.onrender.com/api/auth/send-otp', { email });
       alert('🔁 OTP resent successfully!');
       setTimer(60);
     } catch (err) {
