@@ -870,7 +870,9 @@ const ChatPage = () => {
         console.error('❌ Error fetching chat history:', err.message);
       }
     };
+    const interval = setInterval(fetchChatHistory, 5000); // 🔄 Refresh every 5s
 
+     return () => clearInterval(interval);
     fetchChatHistory();
   }, [selectedUser, currentEmail]);
 
