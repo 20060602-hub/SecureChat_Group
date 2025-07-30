@@ -797,7 +797,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import io from 'socket.io-client';
+import socket from '../services/socket';
 import BackButton from '../components/BackButton';
 import './ChatPage.css';
 import { encryptMessage, decryptMessage } from '../utils/aesUtils'; // ✅ Import encryption helpers
