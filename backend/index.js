@@ -200,7 +200,7 @@ import mongoose from 'mongoose';
 
 import authRoutes from './routes/authRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
-
+import userRoutes from './routes/userRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -221,7 +221,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
-
+app.use('/api/users', userRoutes);
 // Root route
 app.get('/', (req, res) => {
   res.send('✅ Backend is running');
