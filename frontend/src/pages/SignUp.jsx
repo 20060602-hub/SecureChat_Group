@@ -110,7 +110,7 @@ const Signup = () => {
 
     try {
       // Dynamically set the backend URL based on environment
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
       // Send POST request to backend to create new user
       await axios.post(`${backendUrl}/api/auth/signup`, {
