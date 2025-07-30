@@ -47,7 +47,7 @@ import BackButton from "../components/BackButton";
 import './VerifiedUsers.css';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+const socket = io('https://securechat-group.onrender.com');
 
 const VerifiedUsers = () => {
   const [users, setUsers] = useState([]);
